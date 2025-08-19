@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Peaky Blinders – Full Saga (Seasons 1–6) + Movie Setup</title>
+  <meta name="description" content="A clean, single-file HTML project page summarizing the complete Peaky Blinders story (Seasons 1–6) and a predicted movie setup." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎩</text></svg>">
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #141821;
+      --panel-2: #1b2130;
+      --text: #e8ecf1;
+      --muted: #a9b0bb;
+      --brand: #9b87f5; /* soft violet */
+      --accent: #22c55e; /* green */
+      --danger: #ef4444; /* red */
+      --ring: rgba(155, 135, 245, 0.45);
+      --shadow: 0 8px 30px rgba(0,0,0,.35);
+    }
+    [data-theme="light"] {
+      --bg: #f7f7fb;
+      --panel: #ffffff;
+      --panel-2: #f1f3f8;
+      --text: #0e1217;
+      --muted: #4b5563;
+      --brand: #6d28d9;
+      --accent: #16a34a;
+      --danger: #b91c1c;
+      --ring: rgba(109, 40, 217, 0.25);
+      --shadow: 0 8px 24px rgba(17, 24, 39, .08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text); background: radial-gradient(1200px 900px at 10% -10%, #1a2030 0%, var(--bg) 40%, var(--bg) 100%);
+    }
+
+    .container { width: min(1100px, 92vw); margin: 0 auto; }
+
+    /* Topbar */
+    .topbar {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(1.2) blur(10px);
+      background: linear-gradient(180deg, rgba(15,17,21,.9), rgba(15,17,21,.75));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .topbar-inner { display: flex; align-items: center; gap: 14px; padding: 12px 10px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .5px; }
+    .logo .mark { font-size: 22px; }
+    .top-actions { margin-left: auto; display: flex; gap: 8px; }
+    .btn {
+      padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08); background: var(--panel);
+      color: var(--text); cursor: pointer; transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+      box-shadow: var(--shadow);
+    }
+    .btn:hover { border-color: var(--ring); box-shadow: 0 10px 24px var(--ring); }
+    .btn:active { transform: translateY(1px); }
+
+    /* Hero */
+    .hero { padding: 38px 0 14px; }
+    .hero .banner {
+      background: linear-gradient(135deg, rgba(155, 135, 245, .15), rgba(34, 197, 94, .10));
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 24px; padding: 28px; display: grid; gap: 18px; box-shadow: var(--shadow);
+    }
+    .title { font-size: clamp(28px, 4vw, 48px); line-height: 1.15; margin: 0; }
+    .subtitle { color: var(--muted); margin: 0; font-size: clamp(14px, 2.2vw, 18px); }
+
+    /* Grid */
+    .grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+    @media (min-width: 900px) { .grid { grid-template-columns: 280px 1fr; } }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 66px; align-self: start; display: grid; gap: 10px; }
+    .card { background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid rgba(255,255,255,.06); border-radius: 22px; padding: 16px; box-shadow: var(--shadow); }
+    .toc h3 { margin: 6px 0 12px; font-size: 14px; text-transform: uppercase; letter-spacing: .11em; color: var(--muted); }
+    .toc a { display: block; padding: 10px 12px; border-radius: 12px; color: var(--text); text-decoration: none; border: 1px solid transparent; }
+    .toc a:hover, .toc a.active { border-color: var(--ring); background: rgba(155,135,245,.12); }
+
+    /* Content */
+    .content { display: grid; gap: 18px; }
+    section { scroll-margin-top: 90px; }
+    .section-card { padding: 22px; border-radius: 22px; border: 1px solid rgba(255,255,255,.06); background: linear-gradient(180deg, var(--panel), var(--panel-2)); box-shadow: var(--shadow); }
+    .section-card h2 { margin: 0 0 6px; font-size: clamp(20px, 2.8vw, 30px); }
+    .meta { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+
+    /* Details/summary accordions */
+    details { border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 14px 16px; background: rgba(255,255,255,.02); }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 700; }
+    summary::marker { color: var(--brand); }
+
+    /* Footer */
+    footer { color: var(--muted); text-align: center; padding: 30px 0 60px; }
+
+    /* Utilities */
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.10); }
+    .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(34,197,94,.15); }
+    .muted { color: var(--muted); }
+
+    /* Print */
+    @media print {
+      .topbar, .sidebar, .top-actions { display: none !important; }
+      body { background: white; color: black; }
+      .section-card, .card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; background: white; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="logo" aria-label="Peaky Blinders Full Story">
+        <div class="mark" aria-hidden="true">🎩</div>
+        <div>Peaky Blinders — Full Story</div>
+      </div>
+      <nav class="top-actions" aria-label="Top actions">
+        <button class="btn" id="toggleTheme" aria-pressed="true" aria-label="Toggle dark mode">Toggle Theme</button>
+        <button class="btn" onclick="window.print()" aria-label="Print or Save as PDF">Print / Save PDF</button>
+        <a class="btn" href="#movie-setup" aria-label="Jump to Movie Setup">Movie Setup ↓</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container hero">
+    <div class="banner">
+      <h1 class="title">Peaky Blinders — The Full Saga (Seasons 1–6)</h1>
+      <p class="subtitle">A cinematic, single-page overview of the Shelby family’s rise, betrayals, and battles — ending where the upcoming film begins.</p>
+      <div class="pill"><span class="dot" aria-hidden="true"></span> <span>Read time: ~8–10 minutes</span></div>
+    </div>
+  </main>
+
+  <div class="container grid" role="complementary">
+    <aside class="sidebar">
+      <div class="card toc" aria-label="Table of contents">
+        <h3>Contents</h3>
+        <a href="#act1">Act 1 · Rise (Season 1)</a>
+        <a href="#act2">Act 2 · Blood & Business (Season 2)</a>
+        <a href="#act3">Act 3 · Family & Betrayal (Season 3)</a>
+        <a href="#act4">Act 4 · Politics of War (Season 4)</a>
+        <a href="#act5">Act 5 · Shadow of Fascism (Season 5)</a>
+        <a href="#act6">Act 6 · End of the Road (Season 6)</a>
+        <a href="#movie-setup">Movie Setup · 1939</a>
+        <a href="#disclaimer">Note on the Movie</a>
+      </div>
+
+      <div class="card" aria-label="Quick facts">
+        <h3 style="margin:6px 0 12px">Quick Facts</h3>
+        <ul style="margin:0; padding-left:18px">
+          <li>Timeline: 1919 → 1939</li>
+          <li>Locale: Birmingham, London, & beyond</li>
+          <li>Theme: Power, loyalty, redemption</li>
+          <li>Icon: Razor in the cap 🎩</li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="content" role="region" aria-label="Story content">
+      <section id="act1" class="section-card">
+        <h2>Act 1: Rise of the Peaky Blinders (1919 — Season 1)</h2>
+        <div class="meta">Post–World War I Birmingham. Ambition ignites.</div>
+        <p><strong>Thomas Shelby</strong>, a decorated war veteran, returns to a broken Birmingham and leads the <em>Peaky Blinders</em>, a razor-cap gang with ambitions beyond the streets. A seized cache of stolen guns draws the wrath of <strong>Inspector Campbell</strong>, sent to crush the gangs. Tommy falls for <strong>Grace Burgess</strong>, not knowing she’s undercover. By season’s end, Tommy outmaneuvers Campbell, expands his empire, and loses Grace — for now.</p>
+        <details>
+          <summary>Key Beats</summary>
+          <ul>
+            <li>Stolen government guns spark a citywide manhunt.</li>
+            <li>Grace’s double life strains her loyalties.</li>
+            <li>Tommy asserts vision: from gangland to legitimate power.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="act2" class="section-card">
+        <h2>Act 2: Blood & Business (1921 — Season 2)</h2>
+        <div class="meta">The London expansion. New enemies, uneasy allies.</div>
+        <p>The Shelbys push into London, colliding with the <strong>Sabini</strong> syndicate and striking volatile deals with <strong>Alfie Solomons</strong>. <strong>Grace</strong> returns, married yet tethered to Tommy. After brutal turf wars and political manipulation, Tommy defeats Sabini but discovers the government intends to use him for darker tasks.</p>
+        <details>
+          <summary>Key Beats</summary>
+          <ul>
+            <li>Alfie’s betrayals and alliances become a recurring knife’s edge.</li>
+            <li>Grace’s return complicates power and emotion.</li>
+            <li>Tommy’s entanglement with state operations begins.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="act3" class="section-card">
+        <h2>Act 3: Family & Betrayal (1924 — Season 3)</h2>
+        <div class="meta">A wedding, a murder, and a plunge into conspiracy.</div>
+        <p>Tommy marries <strong>Grace</strong>, but happiness shatters when she’s <strong>assassinated</strong> at a charity event. Grief drives Tommy into high-stakes deals with Russian aristocrats and the Church. He gains wealth and influence yet pushes his family to a breaking point.</p>
+        <details>
+          <summary>Key Beats</summary>
+          <ul>
+            <li>The Shelby family’s trust begins to fracture.</li>
+            <li>Tommy’s pursuit of power eclipses his humanity.</li>
+            <li>Enemies multiply in the shadows of state and church.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="act4" class="section-card">
+        <h2>Act 4: The Politics of War (1926 — Season 4)</h2>
+        <div class="meta">Vendetta descends from across the ocean.</div>
+        <p><strong>Luca Changretta</strong>, a Sicilian mobster, arrives to annihilate the Shelbys after their betrayal of his family. Through brutal confrontations and a precarious pact with <strong>Alfie Solomons</strong>, Tommy outwits Luca. In a shocking evolution, Tommy becomes a <strong>Member of Parliament</strong>, stepping from crime to politics.</p>
+        <details>
+          <summary>Key Beats</summary>
+          <ul>
+            <li>Near-destruction of the family forces new tactics.</li>
+            <li>Alfie’s double-crossing peaks — and pivots.</li>
+            <li>Tommy trades the street for the state.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="act5" class="section-card">
+        <h2>Act 5: The Shadow of Fascism (1929 — Season 5)</h2>
+        <div class="meta">The crash, the visions, and Mosley’s rise.</div>
+        <p>The world buckles under economic collapse. As an MP, Tommy fights inner torment and recurring visions of <strong>Grace</strong>. Enter <strong>Oswald Mosley</strong>, spearheading British fascism. Tommy pretends to cooperate while plotting Mosley’s assassination. <strong>Michael Gray</strong> returns from America, challenging Tommy’s rule. The plot fails due to betrayal within the ranks, and Tommy, crushed, stares down the abyss of his own mind.</p>
+        <details>
+          <summary>Key Beats</summary>
+          <ul>
+            <li>The family splinters between old guard and new ambition.</li>
+            <li>Mental trauma becomes Tommy’s fiercest foe.</li>
+            <li>The failed assassination resets the war with Mosley.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="act6" class="section-card">
+        <h2>Act 6: The End of the Road (1933 — Season 6)</h2>
+        <div class="meta">Loss, lies, and a lonely ride into the future.</div>
+        <p><strong>Polly Gray</strong> is killed by the IRA, devastating the Shelbys. <strong>Michael</strong>, vowing revenge, moves against Tommy and pays with his life. Tommy is told he’s terminally ill — a <em>lie</em> engineered by enemies linked to <strong>Mosley</strong>. Realizing he’s been spared, Tommy burns his old life and disappears, alive and unbound.</p>
+        <details>
+          <summary>Key Beats</summary>
+          <ul>
+            <li>Polly’s death leaves a permanent scar.</li>
+            <li>Michael vs. Tommy ends in finality.</li>
+            <li>The illness ruse reveals a larger conspiracy.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="movie-setup" class="section-card">
+        <h2>Where the Movie Begins (1939 — World War II)</h2>
+        <div class="meta">The table is set: Tommy Shelby vs. British fascism.</div>
+        <p>The series closes with Tommy alive and in the wind. As Europe edges into war, the next chapter points toward a confrontation with <strong>Oswald Mosley</strong>, renewed family schisms, and one last reckoning for the Peaky Blinders’ legacy.</p>
+        <details>
+          <summary>Predicted Film Trajectory (Fan Outline)</summary>
+          <ul>
+            <li><strong>Opening:</strong> 1939. Tommy resurfaces, sharper than ever.</li>
+            <li><strong>Gathering Storm:</strong> Family divided; fascist power ascends.</li>
+            <li><strong>Blood & Brotherhood:</strong> Allies old and new; betrayal from within.</li>
+            <li><strong>War with the Devil:</strong> Open conflict as WWII begins; a showdown with Mosley.</li>
+            <li><strong>Finale:</strong> A choice between power and redemption; a curtain call on the Shelby name.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="disclaimer" class="section-card">
+        <h2>Note on the Movie</h2>
+        <p class="muted">The official <em>Peaky Blinders</em> film has not been released at the time this page was written. The “Predicted Film Trajectory” is a fan-made outline based on Season 6 and creator hints, and is <strong>not</strong> the confirmed plot.</p>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>By order of the Peaky Blinders. 🎩 This is a free, single-file HTML project page you can save, share, or print.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth-activate ToC links on scroll
+    const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+    const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const setActive = () => {
+      const pos = window.scrollY + 120;
+      let activeId = null;
+      for (const sec of sections) {
+        if (sec.offsetTop <= pos) activeId = '#' + sec.id;
+      }
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === activeId));
+    };
+    document.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+
+    // Theme toggle with localStorage
+    const root = document.documentElement;
+    const btn = document.getElementById('toggleTheme');
+    const stored = localStorage.getItem('pb-theme');
+    if (stored) root.setAttribute('data-theme', stored);
+    btn.addEventListener('click', () => {
+      const cur = root.getAttribute('data-theme') || 'dark';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('pb-theme', next);
+      btn.setAttribute('aria-pressed', String(next === 'dark'));
+    });
+  </script>
+</body>
+</html>
